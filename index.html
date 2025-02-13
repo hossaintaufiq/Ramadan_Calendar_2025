@@ -6,123 +6,124 @@
     <title>Ramadan 2025 Calendar</title>
     <link rel="stylesheet" href="style.css">
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+
         body {
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to bottom, #0d5a42, #1a3a29); /* Islamic greenish gradient */
+            font-family: 'Nunito', sans-serif;
+            background: url('background.jpg') no-repeat center center/cover;
             color: white;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
-        }
-        .calendar-container {
-            background: rgba(255, 255, 255, 0.1);
-            padding: 30px; /* Increased padding */
-            border-radius: 15px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             text-align: center;
-            max-width: 500px; /* Increased width */
-            width: 100%;
-            backdrop-filter: blur(10px);
-            position: relative;
         }
+
+        .calendar-container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+            width: 90%;
+            max-width: 800px;
+            backdrop-filter: blur(5px);
+        }
+
         header {
-            font-size: 28px; /* Increased font size */
-            margin-bottom: 20px; /* Increased margin */
+            font-size: 28px;
+            margin-bottom: 20px;
+            font-weight: bold;
         }
+
         .calendar {
             display: grid;
-            grid-template-columns: repeat(7, 1fr);
-            gap: 15px; /* Increased gap */
+            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            gap: 10px;
         }
+
         .day {
-            background: #4CAF50; /* Greenish color */
+            background: #4CAF50;
             color: white;
-            padding: 15px; /* Increased padding */
-            border-radius: 8px; /* Increased border radius */
-            text-align: center;
-            font-size: 16px; /* Increased font size */
+            padding: 15px;
+            border-radius: 8px;
+            font-size: 16px;
             box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
             cursor: pointer;
-            transition: transform 0.2s;
+            transition: transform 0.2s, background 0.2s;
         }
+
         .day:hover {
             transform: scale(1.1);
-            background: #45a049; /* Darker green on hover */
+            background: #45a049;
         }
-        .moon {
-            width: 60px; /* Increased size */
-            height: 60px; /* Increased size */
-            background: radial-gradient(circle, #fff 30%, #c4c4c4 70%);
-            border-radius: 50%;
-            position: absolute;
-            top: 20px;
-            left: 50%;
-            transform: translateX(-50%);
-            box-shadow: 0 0 20px rgba(255, 255, 255, 0.5);
-            transition: background 0.5s ease-in-out;
-        }
+
         .popup {
             display: none;
             position: fixed;
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background: linear-gradient(to bottom, #0d5a42, #1a3a29); /* Gradient background */
+            background: rgba(0, 0, 0, 0.9);
             color: white;
             padding: 20px;
             border-radius: 8px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
             text-align: center;
             z-index: 1000;
-            max-width: 300px;
-            width: 100%;
+            max-width: 400px;
+            width: 90%;
         }
-        .popup button {
-            margin-top: 10px;
-            padding: 5px 10px;
-            background: #ff5722;
+
+        #close-popup {
+            background: red;
             color: white;
             border: none;
+            padding: 10px 15px;
             border-radius: 5px;
             cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #close-popup:hover {
+            background: darkred;
         }
     </style>
 </head>
 <body>
-    <div class="moon" id="moon"></div>
     <div class="calendar-container">
         <header>
             <h2>Ramadan 2025 Calendar</h2>
         </header>
         <div class="calendar" id="calendar"></div>
     </div>
+
     <div class="popup" id="popup">
         <p id="popup-message"></p>
-        <button onclick="closePopup()">Close</button>
+        <button id="close-popup">Close</button>
     </div>
+
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             const calendar = document.getElementById("calendar");
             const popup = document.getElementById("popup");
             const popupMessage = document.getElementById("popup-message");
-            const moon = document.getElementById("moon");
-            const ramadanStart = new Date(2025, 1, 27); // Ramadan starts on February 27, 2025
-            const ramadanEnd = new Date(2025, 2, 29); // Ramadan ends on March 29, 2025
+            const closePopupBtn = document.getElementById("close-popup");
 
-            // Sample Quranic verses (Ayat)
+            const ramadanStart = new Date(2025, 1, 27);
+            const ramadanEnd = new Date(2025, 2, 29);
+
             const quranVerses = [
                 "Indeed, Allah is with the patient. (2:153)",
-                "And We have certainly made the Quran easy for remembrance, so is there any who will remember? (54:17)",
+                "And We have certainly made the Quran easy for remembrance. (54:17)",
                 "Allah does not burden a soul beyond that it can bear. (2:286)",
                 "So remember Me; I will remember you. (2:152)",
-                "And establish prayer and give zakah and bow with those who bow. (2:43)",
+                "And establish prayer and give zakah. (2:43)",
                 "And whoever fears Allah - He will make for him a way out. (65:2)",
                 "And whoever relies upon Allah - then He is sufficient for him. (65:3)",
                 "Indeed, the mercy of Allah is near to the doers of good. (7:56)",
                 "And your Lord is the Forgiving, Full of Mercy. (18:58)",
-                "And whoever does righteous good deeds, male or female, and is a true believer, they will enter Paradise. (4:124)"
+                "And whoever does righteous deeds, they will enter Paradise. (4:124)"
             ];
 
             function renderRamadanCalendar() {
@@ -139,7 +140,6 @@
                         const randomVerse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
                         const selectedDate = this.dataset.date;
                         showPopup(`Date: ${selectedDate}<br>${randomVerse}`);
-                        updateMoonPhase(dayCount); // Update moon phase on click
                     });
                     calendar.appendChild(dayCell);
                     date.setDate(date.getDate() + 1);
@@ -148,20 +148,15 @@
             }
 
             function showPopup(message) {
-                popupMessage.innerHTML = message; // Use innerHTML to display line breaks
+                popupMessage.innerHTML = message;
                 popup.style.display = "block";
             }
 
             function closePopup() {
-                popup.style.display = "none"; // Hide the popup
+                popup.style.display = "none";
             }
 
-            function updateMoonPhase(day) {
-                const phase = (day % 30) / 30; // Simulate moon phases (30-day cycle)
-                const moonClip = `polygon(${50 + 50 * Math.cos(phase * 2 * Math.PI)}% 0%, 100% 50%, ${50 + 50 * Math.cos(phase * 2 * Math.PI)}% 100%, 0% 50%)`;
-                moon.style.clipPath = moonClip;
-                moon.style.backgroundColor = phase < 0.5 ? "#f0f0f0" : "#333"; // Darker for waning moon
-            }
+            closePopupBtn.addEventListener("click", closePopup);
 
             renderRamadanCalendar();
         });
