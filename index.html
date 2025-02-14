@@ -25,8 +25,8 @@
             padding: 30px;
             border-radius: 15px;
             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            width: 90%;
-            max-width: 800px;
+            width: 80%;
+            /* max-width: ; */
             backdrop-filter: blur(5px);
         }
 
@@ -38,7 +38,7 @@
 
         .calendar {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
             gap: 10px;
         }
 
@@ -110,8 +110,8 @@
             const popupMessage = document.getElementById("popup-message");
             const closePopupBtn = document.getElementById("close-popup");
 
-            const ramadanStart = new Date(2025, 1, 27);
-            const ramadanEnd = new Date(2025, 2, 29);
+            const ramadanStart = new Date(2025, 2, 1);
+            const ramadanEnd = new Date(2025, 2, 30);
 
             const quranVerses = [
                 "Indeed, Allah is with the patient. (2:153)",
@@ -126,26 +126,86 @@
                 "And whoever does righteous deeds, they will enter Paradise. (4:124)"
             ];
 
-            function renderRamadanCalendar() {
-                calendar.innerHTML = "";
-                let date = new Date(ramadanStart);
-                let dayCount = 1;
+            // function renderRamadanCalendar() {
+            //     calendar.innerHTML = "";
+            //     let date = new Date(ramadanStart);
+            //     let dayCount = 1;
 
-                while (date <= ramadanEnd) {
-                    const dayCell = document.createElement("div");
-                    dayCell.classList.add("day");
-                    dayCell.textContent = `Day ${dayCount}`;
-                    dayCell.dataset.date = date.toDateString();
-                    dayCell.addEventListener("click", function () {
-                        const randomVerse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
-                        const selectedDate = this.dataset.date;
-                        showPopup(`Date: ${selectedDate}<br>${randomVerse}`);
-                    });
-                    calendar.appendChild(dayCell);
-                    date.setDate(date.getDate() + 1);
-                    dayCount++;
-                }
-            }
+            //     while (date <= ramadanEnd) {
+            //         const dayCell = document.createElement("div");
+            //         dayCell.classList.add("day");
+            //         dayCell.textContent = `Day ${dayCount} (${date.toDateString()})`;
+            //         dayCell.dataset.date = date.toDateString();
+            //         dayCell.addEventListener("click", function () {
+            //             const randomVerse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
+            //             const selectedDate = this.dataset.date;
+            //             showPopup(`Date: ${selectedDate}<br>${randomVerse}`);
+            //         });
+            //         calendar.appendChild(dayCell);
+            //         date.setDate(date.getDate() + 1);
+            //         dayCount++;
+            //     }
+            // }
+
+            // new code 
+            const dua = [
+    "O Allah, help me fast with true faith and sincerity. Ameen.",
+    "O Allah, grant me patience and strength during this Ramadan. Ameen.",
+    "O Allah, forgive my sins and guide me on the right path. Ameen.",
+    "O Allah, bless me with good health and strong Iman. Ameen.",
+    "O Allah, accept my prayers and grant me Jannah. Ameen.",
+    "O Allah, help me be kind and generous this Ramadan. Ameen.",
+    "O Allah, open my heart to Your guidance and wisdom. Ameen.",
+    "O Allah, grant peace and prosperity to my family. Ameen.",
+    "O Allah, increase my knowledge and faith. Ameen.",
+    "O Allah, protect me from evil and grant me righteousness. Ameen.",
+    "O Allah, make me among those who seek Your mercy. Ameen.",
+    "O Allah, help me remain steadfast in my prayers. Ameen.",
+    "O Allah, forgive all my past mistakes. Ameen.",
+    "O Allah, bless my loved ones with happiness. Ameen.",
+    "O Allah, make my fasts a source of spiritual growth. Ameen.",
+    "O Allah, guide me to be a better person. Ameen.",
+    "O Allah, accept my deeds and efforts. Ameen.",
+    "O Allah, grant me peace and tranquility. Ameen.",
+    "O Allah, bless my Ramadan with productivity. Ameen.",
+    "O Allah, protect me from arrogance and pride. Ameen.",
+    "O Allah, fill my heart with gratitude. Ameen.",
+    "O Allah, make me among the righteous. Ameen.",
+    "O Allah, help me control my anger. Ameen.",
+    "O Allah, purify my soul and intentions. Ameen.",
+    "O Allah, accept my prayers and grant me success. Ameen.",
+    "O Allah, bless me with wisdom and understanding. Ameen.",
+    "O Allah, strengthen my bond with You. Ameen.",
+    "O Allah, forgive my parents and bless them. Ameen.",
+    "O Allah, let me be among those who earn Your pleasure. Ameen.",
+    "O Allah, accept all my fasts and prayers. Ameen."
+];
+
+function renderRamadanCalendar() {
+    calendar.innerHTML = "";
+    let date = new Date(ramadanStart);
+    let dayCount = 1;
+
+    while (date <= ramadanEnd) {
+        const dayCell = document.createElement("div");
+        dayCell.classList.add("day");
+        dayCell.textContent = `Day ${dayCount} (${date.toDateString()})`;
+        dayCell.dataset.date = date.toDateString();
+        dayCell.dataset.day = dayCount;
+        
+        dayCell.addEventListener("click", function () {
+            const randomVerse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
+            const dailyDua = dua[this.dataset.day - 1] || "Dua not available."; 
+
+            const selectedDate = this.dataset.date;
+            showPopup(`Date: ${selectedDate}<br><strong>Quran Verse:</strong> ${randomVerse}<br><strong>Dua:</strong> ${dailyDua}`);
+        });
+
+        calendar.appendChild(dayCell);
+        date.setDate(date.getDate() + 1);
+        dayCount++;
+    }
+}
 
             function showPopup(message) {
                 popupMessage.innerHTML = message;
