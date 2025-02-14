@@ -1,225 +1,211 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Ramadan 2025 Calendar</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="style.css" />
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap');
+      @import url("https://fonts.googleapis.com/css2?family=Nunito:wght@400;700&display=swap");
 
-        body {
-            font-family: 'Nunito', sans-serif;
-            background: url('background.jpg') no-repeat center center/cover;
-            color: white;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-            text-align: center;
-        }
+      body {
+        font-family: "Nunito", sans-serif;
+        background: url("background.jpg") no-repeat center center/cover;
+        color: white;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        text-align: center;
+      }
 
-        .calendar-container {
-            background: rgba(0, 0, 0, 0.7);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-            width: 80%;
-            /* max-width: ; */
-            backdrop-filter: blur(5px);
-        }
+      .calendar-container {
+        background: rgba(0, 0, 0, 0.7);
+        padding: 30px;
+        border-radius: 15px;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        width: 80%;
+        /* max-width: ; */
+        backdrop-filter: blur(5px);
+      }
 
-        header {
-            font-size: 28px;
-            margin-bottom: 20px;
-            font-weight: bold;
-        }
+      header {
+        font-size: 28px;
+        margin-bottom: 20px;
+        font-weight: bold;
+      }
 
-        .calendar {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-            gap: 10px;
-        }
+      .calendar {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
+        gap: 10px;
+      }
 
-        .day {
-            background: #4CAF50;
-            color: white;
-            padding: 15px;
-            border-radius: 8px;
-            font-size: 16px;
-            box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
-            cursor: pointer;
-            transition: transform 0.2s, background 0.2s;
-        }
+      .day {
+        background: #4caf50;
+        color: white;
+        padding: 15px;
+        border-radius: 8px;
+        font-size: 16px;
+        box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        cursor: pointer;
+        transition: transform 0.2s, background 0.2s;
+      }
 
-        .day:hover {
-            transform: scale(1.1);
-            background: #45a049;
-        }
+      .day:hover {
+        transform: scale(1.1);
+        background: #45a049;
+      }
 
-        .popup {
-            display: none;
-            position: fixed;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            background: rgba(0, 0, 0, 0.9);
-            color: white;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            text-align: center;
-            z-index: 1000;
-            max-width: 400px;
-            width: 90%;
-        }
+      .popup {
+        display: none;
+        position: fixed;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        background: rgba(0, 0, 0, 0.9);
+        color: white;
+        padding: 20px;
+        border-radius: 8px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+        text-align: center;
+        z-index: 1000;
+        max-width: 400px;
+        width: 90%;
+      }
 
-        #close-popup {
-            background: red;
-            color: white;
-            border: none;
-            padding: 10px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-top: 10px;
-        }
+      #close-popup {
+        background: red;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 5px;
+        cursor: pointer;
+        margin-top: 10px;
+      }
 
-        #close-popup:hover {
-            background: darkred;
-        }
+      #close-popup:hover {
+        background: darkred;
+      }
     </style>
-</head>
-<body>
+  </head>
+  <body>
     <div class="calendar-container">
-        <header>
-            <h2>Ramadan 2025 Calendar</h2>
-        </header>
-        <div class="calendar" id="calendar"></div>
+      <header>
+        <h2>Ramadan 2025 Calendar</h2>
+      </header>
+      <div class="calendar" id="calendar"></div>
     </div>
 
     <div class="popup" id="popup">
-        <p id="popup-message"></p>
-        <button id="close-popup">Close</button>
+      <p id="popup-message"></p>
+      <button id="close-popup">Close</button>
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            const calendar = document.getElementById("calendar");
-            const popup = document.getElementById("popup");
-            const popupMessage = document.getElementById("popup-message");
-            const closePopupBtn = document.getElementById("close-popup");
+      document.addEventListener("DOMContentLoaded", function () {
+        const calendar = document.getElementById("calendar");
+        const popup = document.getElementById("popup");
+        const popupMessage = document.getElementById("popup-message");
+        const closePopupBtn = document.getElementById("close-popup");
 
-            const ramadanStart = new Date(2025, 2, 1);
-            const ramadanEnd = new Date(2025, 2, 30);
+        const ramadanStart = new Date(2025, 1, 27);
+        const ramadanEnd = new Date(2025, 2, 28);
 
-            const quranVerses = [
-                "Indeed, Allah is with the patient. (2:153)",
-                "And We have certainly made the Quran easy for remembrance. (54:17)",
-                "Allah does not burden a soul beyond that it can bear. (2:286)",
-                "So remember Me; I will remember you. (2:152)",
-                "And establish prayer and give zakah. (2:43)",
-                "And whoever fears Allah - He will make for him a way out. (65:2)",
-                "And whoever relies upon Allah - then He is sufficient for him. (65:3)",
-                "Indeed, the mercy of Allah is near to the doers of good. (7:56)",
-                "And your Lord is the Forgiving, Full of Mercy. (18:58)",
-                "And whoever does righteous deeds, they will enter Paradise. (4:124)"
-            ];
+        const quranVerses = [
+          "Indeed, Allah is with the patient. (2:153)",
+          "And We have certainly made the Quran easy for remembrance. (54:17)",
+          "Allah does not burden a soul beyond that it can bear. (2:286)",
+          "So remember Me; I will remember you. (2:152)",
+          "And establish prayer and give zakah. (2:43)",
+          "And whoever fears Allah - He will make for him a way out. (65:2)",
+          "And whoever relies upon Allah - then He is sufficient for him. (65:3)",
+          "Indeed, the mercy of Allah is near to the doers of good. (7:56)",
+          "And your Lord is the Forgiving, Full of Mercy. (18:58)",
+          "And whoever does righteous deeds, they will enter Paradise. (4:124)",
+        ];
 
-            // function renderRamadanCalendar() {
-            //     calendar.innerHTML = "";
-            //     let date = new Date(ramadanStart);
-            //     let dayCount = 1;
+        const dua = [
+          "O Allah, help me fast with true faith and sincerity. Ameen.",
+          "O Allah, grant me patience and strength during this Ramadan. Ameen.",
+          "O Allah, forgive my sins and guide me on the right path. Ameen.",
+          "O Allah, bless me with good health and strong Iman. Ameen.",
+          "O Allah, accept my prayers and grant me Jannah. Ameen.",
+          "O Allah, help me be kind and generous this Ramadan. Ameen.",
+          "O Allah, open my heart to Your guidance and wisdom. Ameen.",
+          "O Allah, grant peace and prosperity to my family. Ameen.",
+          "O Allah, increase my knowledge and faith. Ameen.",
+          "O Allah, protect me from evil and grant me righteousness. Ameen.",
+          "O Allah, make me among those who seek Your mercy. Ameen.",
+          "O Allah, help me remain steadfast in my prayers. Ameen.",
+          "O Allah, forgive all my past mistakes. Ameen.",
+          "O Allah, bless my loved ones with happiness. Ameen.",
+          "O Allah, make my fasts a source of spiritual growth. Ameen.",
+          "O Allah, guide me to be a better person. Ameen.",
+          "O Allah, accept my deeds and efforts. Ameen.",
+          "O Allah, grant me peace and tranquility. Ameen.",
+          "O Allah, bless my Ramadan with productivity. Ameen.",
+          "O Allah, protect me from arrogance and pride. Ameen.",
+          "O Allah, fill my heart with gratitude. Ameen.",
+          "O Allah, make me among the righteous. Ameen.",
+          "O Allah, help me control my anger. Ameen.",
+          "O Allah, purify my soul and intentions. Ameen.",
+          "O Allah, accept my prayers and grant me success. Ameen.",
+          "O Allah, bless me with wisdom and understanding. Ameen.",
+          "O Allah, strengthen my bond with You. Ameen.",
+          "O Allah, forgive my parents and bless them. Ameen.",
+          "O Allah, let me be among those who earn Your pleasure. Ameen.",
+          "O Allah, accept all my fasts and prayers. Ameen.",
+        ];
 
-            //     while (date <= ramadanEnd) {
-            //         const dayCell = document.createElement("div");
-            //         dayCell.classList.add("day");
-            //         dayCell.textContent = `Day ${dayCount} (${date.toDateString()})`;
-            //         dayCell.dataset.date = date.toDateString();
-            //         dayCell.addEventListener("click", function () {
-            //             const randomVerse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
-            //             const selectedDate = this.dataset.date;
-            //             showPopup(`Date: ${selectedDate}<br>${randomVerse}`);
-            //         });
-            //         calendar.appendChild(dayCell);
-            //         date.setDate(date.getDate() + 1);
-            //         dayCount++;
-            //     }
-            // }
+        function renderRamadanCalendar() {
+          calendar.innerHTML = "";
+          let date = new Date(ramadanStart);
+          let dayCount = 1;
 
-            // new code 
-            const dua = [
-    "O Allah, help me fast with true faith and sincerity. Ameen.",
-    "O Allah, grant me patience and strength during this Ramadan. Ameen.",
-    "O Allah, forgive my sins and guide me on the right path. Ameen.",
-    "O Allah, bless me with good health and strong Iman. Ameen.",
-    "O Allah, accept my prayers and grant me Jannah. Ameen.",
-    "O Allah, help me be kind and generous this Ramadan. Ameen.",
-    "O Allah, open my heart to Your guidance and wisdom. Ameen.",
-    "O Allah, grant peace and prosperity to my family. Ameen.",
-    "O Allah, increase my knowledge and faith. Ameen.",
-    "O Allah, protect me from evil and grant me righteousness. Ameen.",
-    "O Allah, make me among those who seek Your mercy. Ameen.",
-    "O Allah, help me remain steadfast in my prayers. Ameen.",
-    "O Allah, forgive all my past mistakes. Ameen.",
-    "O Allah, bless my loved ones with happiness. Ameen.",
-    "O Allah, make my fasts a source of spiritual growth. Ameen.",
-    "O Allah, guide me to be a better person. Ameen.",
-    "O Allah, accept my deeds and efforts. Ameen.",
-    "O Allah, grant me peace and tranquility. Ameen.",
-    "O Allah, bless my Ramadan with productivity. Ameen.",
-    "O Allah, protect me from arrogance and pride. Ameen.",
-    "O Allah, fill my heart with gratitude. Ameen.",
-    "O Allah, make me among the righteous. Ameen.",
-    "O Allah, help me control my anger. Ameen.",
-    "O Allah, purify my soul and intentions. Ameen.",
-    "O Allah, accept my prayers and grant me success. Ameen.",
-    "O Allah, bless me with wisdom and understanding. Ameen.",
-    "O Allah, strengthen my bond with You. Ameen.",
-    "O Allah, forgive my parents and bless them. Ameen.",
-    "O Allah, let me be among those who earn Your pleasure. Ameen.",
-    "O Allah, accept all my fasts and prayers. Ameen."
-];
+          while (date <= ramadanEnd) {
+            const dayCell = document.createElement("div");
+            dayCell.classList.add("day");
+            dayCell.textContent = `Day ${dayCount} (${date.toDateString()})`;
+            dayCell.dataset.date = date.toDateString();
+            dayCell.dataset.day = dayCount;
 
-function renderRamadanCalendar() {
-    calendar.innerHTML = "";
-    let date = new Date(ramadanStart);
-    let dayCount = 1;
+            dayCell.addEventListener("click", function () {
+              const randomVerse =
+                quranVerses[Math.floor(Math.random() * quranVerses.length)];
+              const dailyDua =
+                dua[this.dataset.day - 1] || "Dua not available.";
 
-    while (date <= ramadanEnd) {
-        const dayCell = document.createElement("div");
-        dayCell.classList.add("day");
-        dayCell.textContent = `Day ${dayCount} (${date.toDateString()})`;
-        dayCell.dataset.date = date.toDateString();
-        dayCell.dataset.day = dayCount;
-        
-        dayCell.addEventListener("click", function () {
-            const randomVerse = quranVerses[Math.floor(Math.random() * quranVerses.length)];
-            const dailyDua = dua[this.dataset.day - 1] || "Dua not available."; 
+              const selectedDate = this.dataset.date;
+              showPopup(
+                `Date: ${selectedDate}<br><strong>Quran Verse:</strong> ${randomVerse}<br><strong>Dua:</strong> ${dailyDua}`
+              );
+            });
 
-            const selectedDate = this.dataset.date;
-            showPopup(`Date: ${selectedDate}<br><strong>Quran Verse:</strong> ${randomVerse}<br><strong>Dua:</strong> ${dailyDua}`);
-        });
+            calendar.appendChild(dayCell);
+            date.setDate(date.getDate() + 1);
+            dayCount++;
+          }
+        }
 
-        calendar.appendChild(dayCell);
-        date.setDate(date.getDate() + 1);
-        dayCount++;
-    }
-}
+        function showPopup(message) {
+          popupMessage.innerHTML = message;
+          popup.style.display = "block";
+        }
 
-            function showPopup(message) {
-                popupMessage.innerHTML = message;
-                popup.style.display = "block";
-            }
+        function closePopup() {
+          popup.style.display = "none";
+        }
 
-            function closePopup() {
-                popup.style.display = "none";
-            }
+        closePopupBtn.addEventListener("click", closePopup);
 
-            closePopupBtn.addEventListener("click", closePopup);
-
-            renderRamadanCalendar();
-        });
+        renderRamadanCalendar();
+      });
     </script>
-</body>
+  </body>
 </html>
+
+
+
+
